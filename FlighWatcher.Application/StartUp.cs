@@ -11,6 +11,8 @@ namespace FlightWatcher.Application
             Infrastructure.StartUp.RegisterServices(services, configuration);
             services.AddScoped<IAuthService, AuthService>();    
             services.AddScoped<IFlightService, FlightService>();    
+            services.AddScoped<IBookmarkService, BookmarkService>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
     }
 }

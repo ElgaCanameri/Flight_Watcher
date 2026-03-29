@@ -26,13 +26,13 @@ namespace FlightWatcher.Controllers
 
         [HttpGet("{flightNumber}")]
         public async Task<IActionResult> GetFlightNumberAndDate(
-            [FromRoute] string flightNumber,
-            [FromQuery] DateTime date)
+            [FromRoute] string flightNumber)
+           // [FromQuery] DateTime date)
         {
 
-            var flight = await _flightService.GetFlightNumberAndDateAsync(flightNumber, date);
+            var flight = await _flightService.GetFlightNumberAndDateAsync(flightNumber);
             if (flight == null)
-                return NotFound(new { message = $"Flight {flightNumber} not found for {date:yyyy-MM-dd}." });
+                return NotFound(new { message = $"Flight {flightNumber} not found." });
             return Ok(flight);
 
         }

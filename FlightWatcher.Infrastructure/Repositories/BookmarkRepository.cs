@@ -12,9 +12,6 @@ namespace FlightWatcher.Infrastructure.Repositories
                         .Include(b => b.User)
                         .Where(b => b.IsActive)
                         .ToListAsync();
-        //    return await _context.Bookmarks
-        //.Where(b => b.FlightDate >= DateTime.UtcNow.Date)
-        //.ToListAsync();
         }
         public async Task<Bookmark?> GetByUserAndFlightAsync(int userId, string flightId, DateTime flightDate)
         {

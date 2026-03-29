@@ -9,7 +9,7 @@
         public bool IsRead { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? ReadAt { get; set; }
-        public int? RelatedFlightId { get; set; }
+        public string FlightIata { get; set; }
 
         // Navigation properties
         public User User { get; set; } = null!;

@@ -9,7 +9,6 @@
         {
             return await _dbSet
                 .Include(r => r.Bookmark)
-                .ThenInclude(b => b.Flight)
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
         public async Task<List<Reminder>> GetBookmarkRemindersAsync(int bookmarkId)
@@ -27,7 +26,6 @@
             return await _dbSet
                 .Include(r => r.UserId)
                 .Include(r => r.Bookmark)
-                .ThenInclude(b => b.Flight)
                 .Where(r => !r.IsSent && r.ReminderTime <= now)
                 .ToListAsync();
         }
@@ -36,7 +34,6 @@
         {
             return await _dbSet
                        .Include(r => r.Bookmark)
-                       .ThenInclude(b => b.Flight)
                        .Where(r => r.UserId == userId)
                        .OrderBy(r => r.ReminderTime)
                        .ToListAsync();

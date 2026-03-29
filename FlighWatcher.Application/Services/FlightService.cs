@@ -4,7 +4,7 @@ namespace FlightWatcher.Application.Services
 {
     public interface IFlightService
     {
-        Task<AviationStackFlight?> GetFlightNumberAndDateAsync(string flightNumber, DateTime date);
+        Task<AviationStackFlight?> GetFlightNumberAndDateAsync(string flightNumber);
         Task<List<AviationStackFlight>> GetActiveFlightsAsync();
     }
     public class FlightService : BaseService, IFlightService
@@ -26,13 +26,13 @@ namespace FlightWatcher.Application.Services
             }
         }
 
-        public async Task<AviationStackFlight?> GetFlightNumberAndDateAsync(string flightNumber, DateTime date)
+        public async Task<AviationStackFlight?> GetFlightNumberAndDateAsync(string flightNumber)
         {
             var flights = await _unitOfWork.FlightRepository.GetActiveFlightsAsync();
 
             return flights.FirstOrDefault(f =>
-                f.Flight?.Iata?.Equals(flightNumber, StringComparison.OrdinalIgnoreCase) == true &&
-                f.Flight_Date == date.ToString("yyyy-MM-dd"));
+                f.Flight?.Iata?.Equals(flightNumber, StringComparison.OrdinalIgnoreCase) == true);
+              
         }
     }
 }

@@ -78,7 +78,7 @@ namespace FlightWatcher.Application.Services
         private string GenerateJwtToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!));
+                Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]!));
 
             var credentials = new SigningCredentials(
                 securityKey,

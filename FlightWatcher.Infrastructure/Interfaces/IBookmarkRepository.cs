@@ -36,9 +36,5 @@
         /// <param name="flightId"></param>
         /// <returns></returns>
         Task<Bookmark?> GetByUserAndFlightAsync(int userId, string flightIata,DateTime flightDate);
-
-        ////Mark bookmark as deleted without actually removing from database
-        ////Instead of permanently deleting, just set IsActive = false
-        //Task SoftDeleteAsync(int id);
     }
 }

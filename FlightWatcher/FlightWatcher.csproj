@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BackgroundJobs\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FlighWatcher.Application\FlightWatcher.Application.csproj" />
   </ItemGroup>
 

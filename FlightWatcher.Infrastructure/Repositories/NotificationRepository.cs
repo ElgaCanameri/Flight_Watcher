@@ -32,9 +32,9 @@
             }
         }
 
-        public async Task MarkOneNotificationAsReadAsync(int id)
+        public async Task MarkOneNotificationAsReadAsync(int notificationId)
         {
-            var notif = await GetByIdAsync(id);
+            var notif = await GetByIdAsync(notificationId);
             if (notif != null && !notif.IsRead)
             {
                 notif.IsRead = true;

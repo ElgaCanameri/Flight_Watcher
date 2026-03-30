@@ -1,0 +1,11 @@
+﻿global using FlightWatcher.Application.Services;
+global using System.Security.Claims;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using FlightWatcher.DTO.Request;
+global using FlightWatcher.Application.Identity;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.IdentityModel.Tokens;
+global using Microsoft.OpenApi.Models;
+global using FlightWatcher.BackgroundJobs;
+global using FlightWatcher.Extensions;

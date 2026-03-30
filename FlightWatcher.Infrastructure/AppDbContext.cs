@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
-namespace FlightWatcher.Infrastructure
+﻿namespace FlightWatcher.Infrastructure
 {
     public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {

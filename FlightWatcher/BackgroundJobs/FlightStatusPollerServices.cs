@@ -1,6 +1,4 @@
-﻿using FlightWatcher.Application.Services;
-
-namespace FlightWatcher.BackgroundJobs
+﻿namespace FlightWatcher.BackgroundJobs
 {
     public class FlightStatusPollerServices : BackgroundService
     {
@@ -42,7 +40,7 @@ namespace FlightWatcher.BackgroundJobs
 
             foreach (var bookmark in bookmarks)
             {
-                var flight = allFlights.FirstOrDefault(f => f.Flight.Iata == bookmark.FlightIata && f.Flight_Date == bookmark.FlightDate.ToString("yyyy-MM-dd"));
+                var flight = allFlights.FirstOrDefault(f => f.Flight.Iata == bookmark.FlightIata && f.Flight_Date == bookmark.FlightDate);
 
                 if (flight == null) continue;
 

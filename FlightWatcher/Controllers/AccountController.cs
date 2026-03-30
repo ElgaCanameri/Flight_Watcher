@@ -1,10 +1,4 @@
-﻿using System.Security.Claims;
-using FlightWatcher.Application.Identity;
-using FlightWatcher.Application.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace FlightWatcher.Controllers
+﻿namespace FlightWatcher.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

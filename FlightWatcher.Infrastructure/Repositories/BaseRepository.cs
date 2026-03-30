@@ -36,6 +36,5 @@
         {
             return await _dbSet.ToListAsync();
         }
-
     }
 }

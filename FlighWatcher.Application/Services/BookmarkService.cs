@@ -1,6 +1,4 @@
-﻿using FlightWatcher.Infrastructure.Entities;
-
-namespace FlightWatcher.Application.Services
+﻿namespace FlightWatcher.Application.Services
 {
     public interface IBookmarkService
     {
@@ -22,80 +20,65 @@ namespace FlightWatcher.Application.Services
         {
             var flight = await _flightService.GetFlightNumberAndDateAsync(flightIata);
             if (flight == null)
-                throw new KeyNotFoundException($"Flight {flightIata} not found.");
+                throw new BaseException($"Flight {flightIata} not found.", StatusCodes.Status404NotFound);
 
             var bookmark = new Bookmark
             {
                 UserId = userId,
                 FlightIata = flightIata,
-                LastKnownStatus = flight.Flight_Status, 
+                LastKnownStatus = flight.Flight_Status,
+                FlightDate = flight.Flight_Date,
+                FlightDeparture = flight.Departure.Timezone,
+                FlightArrival = flight.Arrival.Timezone,
                 BookmarkedAt = DateTime.UtcNow
             };
 
             await _unitOfWork.BookmarkRepository.AddAsync(bookmark);
-            _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
         }
-
         public async Task<List<Bookmark>> GetAllActiveBookmarksAsync()
         {
-            try
-            {
-                return await _unitOfWork.BookmarkRepository.GetAllActiveBookmarksAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error fetching bookmarks: {ex.Message}");
-                return new List<Bookmark>();
-            }
-        }
+            var bookmarks = await _unitOfWork.BookmarkRepository.GetAllActiveBookmarksAsync();
+            if (bookmarks == null)
+                throw new BaseException("Bookmarks could not be found.", StatusCodes.Status404NotFound);
 
+            return bookmarks;
+        }
         public async Task<Bookmark> GetByUserAndFlightAsync(int userId, string flightId, DateTime flightDate)
         {
-            try
-            {
-                return await _unitOfWork.BookmarkRepository.GetByUserAndFlightAsync(userId, flightId, flightDate);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error fetching required bookmark: {ex.Message}");
-                return new Bookmark();
-            }
+            var bookmark = await _unitOfWork.BookmarkRepository.GetByUserAndFlightAsync(userId, flightId, flightDate);
+            if (bookmark == null)
+                throw new BaseException("Required bookmark could not be found.", StatusCodes.Status404NotFound);
+            return bookmark;
         }
-
         public async Task<List<Bookmark>> GetByUserIdAsync(int userId)
         {
-            try
-            {
-                return await _unitOfWork.BookmarkRepository.GetByUserIdAsync(userId);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error fetching bookmarks for specified user: {ex.Message}");
-                return new List<Bookmark>();
-            }
-        }
+            var bookmark = await _unitOfWork.BookmarkRepository.GetByUserIdAsync(userId);
+            if (bookmark == null)
+                throw new BaseException("Bookmarks for specified user could not be found.", StatusCodes.Status404NotFound);
 
+            return bookmark;
+        }
         public async Task<bool> RemoveBookmarkAsync(int userId, string flightId)
         {
             var bookmark = await _unitOfWork.BookmarkRepository.GetByUserAndFlightAsync(userId, flightId, DateTime.UtcNow);
 
             if (bookmark == null) return false;
-            bookmark.IsActive = false; 
+            bookmark.IsActive = false;
             await _unitOfWork.BookmarkRepository.UpdateAsync(bookmark);
-            _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
 
             return true;
         }
-
         public async Task<Bookmark> UpdateLastKnownStatusAsync(int bookmarkId, string flightStatus)
         {
             var bookmark = await _unitOfWork.BookmarkRepository.GetByIdAsync(bookmarkId);
             if (bookmark == null)
-                throw new KeyNotFoundException($"Bookmark {bookmarkId} not found.");
+                throw new BaseException($"Bookmark {bookmarkId} could not be found.", StatusCodes.Status404NotFound);
 
             bookmark.LastKnownStatus = flightStatus;
             await _unitOfWork.BookmarkRepository.UpdateAsync(bookmark);
-            _unitOfWork.Commit();
+            await _unitOfWork.CommitAsync();
 
             return bookmark;
         }

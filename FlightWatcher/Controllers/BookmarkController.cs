@@ -1,12 +1,4 @@
-﻿using FlightWatcher.Application.Services;
-using FlightWatcher.Infrastructure.Entities;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using FlightWatcher.DTO.Request;
-
-namespace FlightWatcher.Controllers
+﻿namespace FlightWatcher.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,10 +11,9 @@ namespace FlightWatcher.Controllers
             _bookmarkService = bookmarkService;
         }
 
-        //Add bookmark
         [Authorize]
         [HttpPost("bookmark")]
-        public async Task<IActionResult> Bookmark([FromBody] AddBookmarkRequest request)
+        public async Task<IActionResult> AddBookmark([FromBody] AddBookmarkRequest request)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             await _bookmarkService.AddBookmarkAsync(userId, request.FlightIata);

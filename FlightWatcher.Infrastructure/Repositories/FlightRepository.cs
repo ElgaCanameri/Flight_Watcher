@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace FlightWatcher.Infrastructure.Repositories
+﻿namespace FlightWatcher.Infrastructure.Repositories
 {
     public class FlightRepository : IFlightRepository
     {

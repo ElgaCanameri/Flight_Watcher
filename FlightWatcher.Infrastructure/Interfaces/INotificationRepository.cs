@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task MarkOneNotificationAsReadAsync(int id);
+        Task MarkOneNotificationAsReadAsync(int notificationId);
        
         /// <summary>
         /// Mark all notifications as read

@@ -6,9 +6,8 @@
         IBookmarkRepository BookmarkRepository { get; }
         IReminderRepository ReminderRepository { get; }
         INotificationRepository NotificationRepository { get; }
-
-        T ExecuteTransaction<T>(Func<T> action);
-        void Commit();
+        Task<T> ExecuteTransactionAsync<T>(Func<Task<T>> action);
+        Task CommitAsync();
     }
     public class UnitOfWork : IUnitOfWork
     {
@@ -27,7 +26,7 @@
         {
             get
             {
-                _flightRepository ??= new FlightRepository(/*_appDbContext,*/ _httpClientFactory.CreateClient(), _configuration);
+                _flightRepository ??= new FlightRepository(_httpClientFactory.CreateClient(), _configuration);
                 return _flightRepository;
             }
         }
@@ -61,25 +60,27 @@
                 return _reminderRepository;
             }
         }
-        public T ExecuteTransaction<T>(Func<T> action)
+        public async Task<T> ExecuteTransactionAsync<T>(Func<Task<T>> action)
         {
-            var transaction = _appDbContext.Database.BeginTransaction();
+            await using var transaction = await _appDbContext.Database.BeginTransactionAsync();
             try
             {
-                var result = action();
-                transaction.Commit();
+                var result = await action();
+
+                await _appDbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+
                 return result;
             }
             catch
             {
-                transaction.Rollback();
+                await transaction.RollbackAsync();
                 throw;
             }
         }
-        public void Commit()
+        public async Task CommitAsync()
         {
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
-
     }
 }

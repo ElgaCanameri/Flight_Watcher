@@ -8,7 +8,9 @@
         public string LastKnownStatus { get; set; }
         public string? Notes { get; set; }
         public bool IsActive { get; set; } = true;
-        public DateTime FlightDate { get; set; }
+        public string FlightDate { get; set; }
+        public string FlightDeparture { get; set; }
+        public string FlightArrival { get; set; }
 
         // Navigation properties
         public User User { get; set; } = null!;

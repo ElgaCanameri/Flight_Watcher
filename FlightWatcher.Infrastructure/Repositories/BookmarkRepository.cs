@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace FlightWatcher.Infrastructure.Repositories
+﻿namespace FlightWatcher.Infrastructure.Repositories
 {
     public class BookmarkRepository : BaseRepository<Bookmark, int>, IBookmarkRepository
     {

@@ -1,12 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using FlightWatcher.Application.Identity;
-using FlightWatcher.Infrastructure.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-namespace FlightWatcher.Application.Services
+﻿namespace FlightWatcher.Application.Services
 {
     public interface IAuthService
     {
@@ -30,7 +22,7 @@ namespace FlightWatcher.Application.Services
         {
             var newUser = await _userManager.FindByEmailAsync(model.Email);
             if (newUser != null)
-                throw new Exception("Email already in use");
+                throw new BaseException("Email already in use", StatusCodes.Status409Conflict);
 
             var user = new User
             {
@@ -46,7 +38,7 @@ namespace FlightWatcher.Application.Services
             if (!result.Succeeded)
             {
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                throw new Exception($"Registration failed: {errors}");
+                throw new BaseException($"Registration failed: {errors}", StatusCodes.Status400BadRequest);
             }
 
             var token = GenerateJwtToken(user);
@@ -57,11 +49,11 @@ namespace FlightWatcher.Application.Services
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
-                throw new UnauthorizedAccessException("Invalid credentials");
+                throw new BaseException("Invalid credentials", StatusCodes.Status401Unauthorized);
 
             var isValidPassword = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!isValidPassword)
-                throw new UnauthorizedAccessException("Invalid credentials");
+                throw new BaseException("Invalid credentials", StatusCodes.Status401Unauthorized);
 
             var token = GenerateJwtToken(user);
 

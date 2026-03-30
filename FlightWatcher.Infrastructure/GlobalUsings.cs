@@ -6,3 +6,6 @@ global using FlightWatcher.Infrastructure.Interfaces;
 global using FlightWatcher.Infrastructure.Repositories;
 global using FlightWatcher.Infrastructure.Enums;
 global using System.ComponentModel.DataAnnotations;
+global using System.Text.Json;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

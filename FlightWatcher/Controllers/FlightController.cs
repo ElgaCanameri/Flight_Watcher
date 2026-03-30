@@ -1,7 +1,4 @@
-﻿using FlightWatcher.Application.Services;
-using Microsoft.AspNetCore.Mvc;
-
-namespace FlightWatcher.Controllers
+﻿namespace FlightWatcher.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -25,16 +22,13 @@ namespace FlightWatcher.Controllers
         }
 
         [HttpGet("{flightNumber}")]
-        public async Task<IActionResult> GetFlightNumberAndDate(
-            [FromRoute] string flightNumber)
-           // [FromQuery] DateTime date)
+        public async Task<IActionResult> GetFlightNumberAndDate([FromRoute] string flightNumber)
         {
 
             var flight = await _flightService.GetFlightNumberAndDateAsync(flightNumber);
             if (flight == null)
                 return NotFound(new { message = $"Flight {flightNumber} not found." });
             return Ok(flight);
-
         }
     }
 }

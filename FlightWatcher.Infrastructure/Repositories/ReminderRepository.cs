@@ -19,17 +19,6 @@
                         .ToListAsync();
         }
 
-        public async Task<List<Reminder>> GetPendingRemindersAsync()
-        {
-            var now = DateTime.UtcNow;
-
-            return await _dbSet
-                .Include(r => r.UserId)
-                .Include(r => r.Bookmark)
-                .Where(r => !r.IsSent && r.ReminderTime <= now)
-                .ToListAsync();
-        }
-
         public async Task<List<Reminder>> GetUserRemindersAsync(int userId)
         {
             return await _dbSet

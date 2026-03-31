@@ -17,17 +17,6 @@
         Task<List<Reminder>> GetBookmarkRemindersAsync(int bookmarkId);
 
         /// <summary>
-        /// Get ALL reminders (across ALL users) that need to be sent NOW
-        /// </summary>
-        /// <returns></returns>
-        /*Returns a list of unsent reminders where ReminderTime has passed
-         - Background Worker runs every minute
-         - Checks which reminders should be triggered
-         - Sends notifications for those reminders 
-         */
-        Task<List<Reminder>> GetPendingRemindersAsync();
-
-        /// <summary>
         /// Mark a reminder as sent after notification is delivered
         /// </summary>
         /// <param name="id"></param>

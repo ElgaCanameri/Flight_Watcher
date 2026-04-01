@@ -14,11 +14,13 @@
         private readonly AppDbContext _appDbContext;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
-        public UnitOfWork(AppDbContext appDbContext, IHttpClientFactory httpclient, IConfiguration configuration)
+        private readonly IMemoryCache _memoryCache;
+        public UnitOfWork(AppDbContext appDbContext, IHttpClientFactory httpclient, IConfiguration configuration, IMemoryCache memoryCache)
         {
             _appDbContext = appDbContext;
             _httpClientFactory = httpclient;
             _configuration = configuration;
+            _memoryCache = memoryCache;
         }
 
         private IFlightRepository _flightRepository;
@@ -26,7 +28,7 @@
         {
             get
             {
-                _flightRepository ??= new FlightRepository(_httpClientFactory.CreateClient(), _configuration);
+                _flightRepository ??= new FlightRepository(_httpClientFactory.CreateClient(), _configuration, _memoryCache);
                 return _flightRepository;
             }
         }

@@ -26,6 +26,7 @@
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.23" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
 		<PackageReference Include="Quartz" Version="3.17.0" />
+		<PackageReference Include="Quartz.Serialization.Json" Version="3.17.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	</ItemGroup>
 

@@ -31,9 +31,12 @@ builder.Services.AddQuartz(q =>
 {
     q.UsePersistentStore(s =>
     {
-        s.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        s.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionString"));
+        s.UseNewtonsoftJsonSerializer();
     });
 });
+builder.Services.AddMemoryCache();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
